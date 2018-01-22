@@ -15,26 +15,25 @@
 
 <style scoped>
 .body {
-  width:900px;
-  height:550px;
+  width:1000px;
+  height:600px;
   margin:10px auto;
-  padding-left:250px;
-  box-shadow:0 0 1px black;
+  padding-left:280px;
   border-radius:2px;
 }
 .right {
   float:left;
   width:100%;
-  height:550px;
+  height:600px;
 }
 .left {
   float:left;
   position:relative;
-  left:-250px;
+  left:-280px;
   margin-left:-100%;
-  width:250px;
-  height:550px;
-  background-color:RGB(245, 150, 170);
+  width:280px;
+  height:600px;
+  background-color:#2e3238;
   color:white;
 }
 </style>

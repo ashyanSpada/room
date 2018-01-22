@@ -1,10 +1,7 @@
 <template>
   <div class="list-bar" @click="clickHandler" :class="{active: isActive}">
     <img src="../../assets/logo.png">
-    <ul>
-      <li>{{name}}</li>
-      <li>{{recentmsg}}</li>
-    </ul>
+    <span>{{name}}</span>
   </div>
 </template>
 
@@ -13,40 +10,23 @@
   margin:0;
   cursor:pointer;
   width:100%;
-  height:64px;
-  padding:12px 18px 12px 18px;
+  padding:10px 18px 10px 18px;
+  text-align:left;
+  border-bottom: 1px solid rgb(38, 41, 46)
 }
 .list-bar img {
   display:inline-block;
-  width:40px;
-  height:40px;
-  border:1px solid white;
-  vertical-align:top;
-  float:left;
+  width:30px;
+  height:30px;
+  border-radius:2px;
+  vertical-align:middle;
 }
-.list-bar ul {
-  margin:0;
-  display:inline-block;
-  vertical-align:top;
-  float:left;
-  padding:0 0 0 10px;
-}
-.list-bar li {
-  text-align:left;
-}
-.list-bar li:first-child {
-  font-size:16px;
-}
-.list-bar li:last-child {
-  max-width:120px;
-  font-size:12px;
-  color:#b5b5b5;
-  overflow: hidden;
-  text-overflow:ellipsis;
-  white-space: nowrap;
+.list-bar span {
+  vertical-align:middle;
+  margin-left:5px;
 }
 .active {
-  background-color: rgb(248, 195, 205);
+  background-color: #3a4045;
 }
 </style>
 
@@ -65,10 +45,6 @@ export default {
         type: 'setMsgreceiver',
         msgreceiver: this.name
       })
-      this.$store.commit({
-        type: 'setMsglist',
-        msglist: this.msglist
-      })
     }
   },
   computed: {
@@ -77,7 +53,7 @@ export default {
     },
     recentmsg () {
       if (this.msglist.length > 0) {
-        return this.msglist[this.msglist.length-1]['data']
+        return this.msglist[this.msglist.length - 1]['data']
       } else {
         return ''
       }
@@ -87,6 +63,9 @@ export default {
     },
     isActive () {
       return this.$store.state.msgreceiver === this.name
+    },
+    msgreceiver () {
+      return this.$store.state.msgreceiver
     }
   },
   watch: {
@@ -100,11 +79,18 @@ export default {
         this.msglist.push(val)
         sessionStorage.setItem('msglist-' + this.name, JSON.stringify(this.msglist))
       }
+    },
+    msgreceiver (val) {
+      if (val === this.name) {
+        this.$store.commit({
+          type: 'setMsglist',
+          msglist: this.msglist
+        })
+      }
     }
   },
   mounted () {
     if (sessionStorage.getItem('msglist-' + this.name)) {
-      console.log(this.name)
       this.msglist = JSON.parse(sessionStorage.getItem('msglist-' + this.name))
     }
   }
